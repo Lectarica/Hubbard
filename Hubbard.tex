@@ -1,0 +1,148 @@
+\documentclass{jarticle}
+\usepackage{comment}
+\usepackage{braket}
+\usepackage{fullpage}
+\usepackage{float}
+\usepackage{color}
+\usepackage{multicol}
+\usepackage[dvipdfmx]{pict2e}
+\usepackage{wrapfig}
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage{url}
+\usepackage{underscore}
+\usepackage{colortbl}
+\usepackage{tabularx}
+\usepackage{fancyhdr}
+\usepackage{ulem}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{hyperref}
+\usepackage{algorithmic}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage[ipaex]{pxchfon}
+
+
+\begin{document}
+
+\title{Hubbard模型}
+\author{Koki Shimura}
+\maketitle
+
+バンド理論において、多数の電子の間にはたらくクーロン斥力(電子相関)はいったん平均化され、周期ポテンシャル$V(r)$のみが考慮して取り扱われている。これを一体近似という。バンド理論の成功により、電子相関を考慮しなくても金属・絶縁体の区別がおおかた可能であることが明らかになった。つまり大抵の場合は一体近似で事足りるのである。では電子相関が重要になるのはどのような場合であろうか。
+
+バンド理論によれば、ユニットセルあたりの電子が奇数個である場合、バンドをスピン$\uparrow$と$\downarrow$の電子で部分的にしか詰めることができず、反対のスピンを持つ電子を詰める余地が必ず存在するために、系は必ず金属的になる。実はこの結論に矛盾する絶縁体が存在する。特に遷移金属酸化物の例が有名である。例えばコバルト酸化物CoOは、酸素原子が8個、コバルト原子が27個の電子をもつため、ユニットセルあたりの電子の個数は奇数になる。それにもかかわらず、CoOは絶縁性を示す。同様の事情は、Mnが25個の電子を持つMnOにも当てはまる。本事象には電子相関が重要な役割を果たしていると考えられており、それを記述するミニマムな模型としてHubbard模型が存在する。
+
+\section{Hubbard模型のハミルトニアン}
+Hubbard模型のハミルトニアン$\mathcal{H}$は以下で与えられる。
+\begin{equation}
+  \mathcal{H} = \sum_{i,j} (t_{ij} c_{i}^\dagger c_{j} + h.c.) -\mu \sum_{i,\sigma}n_{i,\sigma}+ U\sum_{i}n_{i\uparrow}n_{i\downarrow}
+  \label{Hubbard}
+\end{equation}
+$t_{i,j}$はサイトi,jの間の飛び移り積分である。$c_{i}$($c_{i}^{\dagger}$)はサイトiの電子の消滅(生成)演算子であり、$n_{i\uparrow}$($n_{i\downarrow}$)はサイトiにおけるスピン$\uparrow$($\downarrow$)の電子の個数演算子である。第2項を見ると分かるように、$n_{i\uparrow}$, $n_{i\downarrow}$の取りうる値は0か1であり、電子間のクーロン斥力は電子が同一サイトにあるときのみ働く。
+
+Hubbard模型におけるパラメータは以下のとおりである。
+\begin{itemize}
+  \item 電子のホッピング$t_{i,j}$
+  \item クーロン斥力U
+  \item 電子の個数
+  \item 系の次元・結晶構造
+\end{itemize}
+
+Hubbard模型は大胆な近似に基づいている。例えば、クーロン斥力は本来長距離相互作用であるが、本模型では異なるサイト間でクーロン力は一切働かないとしている。また固体中でしばしば重要になる軌道自由度も考慮されていない。それにも関わらず、Hubbard模型は固体電子のふるまいをかなりよく記述する。それは単にバンド理論で説明できない金属・絶縁体の区別を明確にするだけでなく、磁性や高温超伝導の議論まで行うことができる。これほどまでに単純化された模型から多彩な物理が表れることは驚くべきことである。Hubbard模型の物理を余すことなく記述するのは、筆者の手に余る大事業であるので、ここでは金属・絶縁体を区別する観点から論じていく。
+
+\section{Hubbard 1}
+Hubbard模型へのアプローチとして、模型の提案された論文で既に状態密度の近似計算手法が紹介されている。これは現在ハバード1と呼ばれている手法である。ハバード1で考慮されるグリーン関数は
+\subsection{原子極限}
+飛び移り積分がクーロン斥力に比べて極めて小さく、$t_{i,j} = 0$とみなせるような場合を原子極限(atomic limit)と呼ぶ。サイトiにおける原子極限のハミルトニアンは
+\begin{align}
+  \mathcal{H}_{\rm atom}
+  &= U\,n_{i\uparrow}n_{i\downarrow}
+     - \mu\,(n_{i\uparrow} + n_{i\downarrow})
+\end{align}
+と書ける。
+
+レーマン表示のグリーン関数は
+\begin{align}
+  G_0(i\omega_n)
+  &= \frac{1}{Z}
+     \sum_{m,n}
+     \frac{e^{-\beta E_n} + e^{-\beta E_m}}
+          {i\omega_n + E_n - E_m}
+     \bigl|\langle m|\,c_{i\sigma}^\dagger\,|n\rangle\bigr|^2 \notag
+  \\
+  &= (1-n)\,\frac{1}{i\omega_n - ( -\mu )}
+     + n\,\frac{1}{i\omega_n - (U-\mu)} \notag
+  \\
+  &= \frac{1-n}{\,i\omega_n+\mu\,}
+     +\frac{n}{\,i\omega_n+\mu - U\,}.
+\end{align}
+である。
+
+\begin{figure}[h]\label{fig:Hofstadter}
+  \centering
+  \includegraphics[width=\textwidth]{dos_atomic_limit_square.eps}
+  \caption{ホフスタッターの蝶。縦軸にエネルギー、横軸に規格化したmagnetic fluxを0から1まで取っている。}
+\end{figure}
+
+\subsection{自己エネルギーの導出}
+\section{Hubbard 3}
+
+\section{Heisenbergハミルトニアンの導出}
+ここではクーロン斥力$U$が強く、ホッピング$t$が摂動として扱える場合、すなわち$U/t \gg 1$とみなせる場合を考える。まどろっこしい説明にはなるが、無摂動ハミルトニアン$\mathcal{H}^{'}$は、各サイトに電子が0から2個存在しているものの、サイト間の行き来はないような状態に対応している。ここに$\mathcal{H}$を加えて、電子間の移動を摂動として考慮した場合の有効ハミルトニアンが知りたい。量子力学によれば、2次摂動の演算子は
+\begin{equation}
+  \mathcal{H}^{(2)} = \mathcal{H}_0 \frac{1}{E_0 - \mathcal{H}^{'}}\mathcal{H}_0
+  \label{second perturbation}
+\end{equation}
+で与えられるので、式(\ref{Hubbard})を代入すると
+
+\begin{eqnarray*}
+\mathcal{H}^{(2)}
+=
+-\frac{t^2}{U}
+\sum_{\langle i,j\rangle}\sum_{\sigma,\sigma'}
+\Bigl(
+   c_{1\uparrow}^\dagger c_{2\uparrow}
+ + c_{2\uparrow}^\dagger c_{1\uparrow}
+ + c_{1\downarrow}^\dagger c_{2\downarrow}\,
+ + c_{2\downarrow}^\dagger c_{1\downarrow}
+\Bigr)^2
+\end{eqnarray*}
+
+\begin{eqnarray*}
+  \mathcal{H}^{(2)}
+c_{1\uparrow}^\dagger c_{2\downarrow}^\dagger\!\ket{0}
+\;&=&\;
+-\frac{t^2}{U}\,
+\Bigl(
+   c_{1\uparrow}^\dagger c_{2\uparrow}
+ + c_{2\uparrow}^\dagger c_{1\uparrow}
+ + c_{1\downarrow}^\dagger c_{2\downarrow}\,
+ + c_{2\downarrow}^\dagger c_{1\downarrow}
+\Bigr)^2\,
+c_{1\uparrow}^\dagger c_{2\downarrow}^\dagger\!\ket{0}\\
+\;&=&\;
+-\frac{t^2}{U}\,
+\Bigl(
+   c_{1\uparrow}^\dagger c_{2\uparrow}
+ + c_{2\uparrow}^\dagger c_{1\uparrow}
+ + c_{1\downarrow}^\dagger c_{2\downarrow}\,
+ + c_{2\downarrow}^\dagger c_{1\downarrow}
+\Bigr)\,
+\Bigl(c_{1\uparrow}^\dagger c_{1\downarrow}^\dagger+c_{2\uparrow}^\dagger c_{2\downarrow}^\dagger\Bigr)\!\ket{0}\\
+\end{eqnarray*}
+
+となる。ここで、スピン演算子
+\begin{equation}
+  \mathcal{H}^{(2)} = \mathcal{H}_0 \frac{1}{E_0 - \mathcal{H}^{'}}\mathcal{H}_0
+  \label{spin}
+\end{equation}
+
+\begin{thebibliography}{9}
+  \bibitem{hofstadter} Hofstadter, Douglas R., Energy levels and wave functions of Bloch electrons in rational and irrational magnetic fields, Phys. Rev. B $\bm{14}$, 2239(1976).
+  \bibitem{super} C R Dean 1, L Wang, P Maher, C Forsythe, F Ghahari, Y Gao, J Katoch, M Ishigami, P Moon, M Koshino, T Taniguchi, K Watanabe, K L Shepard, J Hone, P Kim, Hofstadter's butterfly and the fractal quantum Hall effect in moiré superlattices, Nature 497(7451), (2013)
+\end{thebibliography}
+
+
+\end{document}
