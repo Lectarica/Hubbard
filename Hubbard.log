@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.141592653-p3.9.1-210218-2.6 (utf8.euc) (TeX Live 2022/dev/Debian) (preloaded format=platex 2024.4.8)  22 MAY 2025 18:33
+This is e-pTeX, Version 3.141592653-p3.9.1-210218-2.6 (utf8.euc) (TeX Live 2022/dev/Debian) (preloaded format=platex 2024.4.8)  23 MAY 2025 21:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -436,7 +436,11 @@ File: l3backend-dvips.def 2022-01-12 L3 backend support: dvips
 \g__pdf_backend_annotation_int=\count302
 \g__pdf_backend_link_int=\count303
 \g__pdf_backend_link_sf_int=\count304
-) (./Hubbard.aux)
+) (./Hubbard.aux
+
+LaTeX Warning: Label `fig:hubbard1-dos' multiply defined.
+
+)
 \openout1 = `Hubbard.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
@@ -494,29 +498,35 @@ LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <17.28> not available
 
 ] [2]
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <14.4> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 153.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 155.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <14.4> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 153.
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 155.
  [3]
 File: dos_atomic_limit_square.eps Graphic file (type eps)
 <dos_atomic_limit_square.eps>
- [4] [5] (./Hubbard.aux)
+ [4]
+File: dos_hubbard1.eps Graphic file (type eps)
+<dos_hubbard1.eps>
+File: dos_hubbard1_nothalffilling.eps Graphic file (type eps)
+<dos_hubbard1_nothalffilling.eps>
 
-Package rerunfilecheck Warning: File `Hubbard.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
 
-Package rerunfilecheck Info: Checksums for `Hubbard.out':
-(rerunfilecheck)             Before: B7A6DB19305BF326886A6944820AB400;396
-(rerunfilecheck)             After:  125E59EC736D3A12B916BB2C4977E359;398.
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[5] [6] (./Hubbard.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+Package rerunfilecheck Info: File `Hubbard.out' has not changed.
+(rerunfilecheck)             Checksum: 125E59EC736D3A12B916BB2C4977E359;398.
  ) 
 Here is how much of TeX's memory you used:
- 11774 strings out of 478741
- 182195 string characters out of 5860983
- 512416 words of memory out of 5000000
- 29988 multiletter control sequences out of 15000+600000
- 490663 words of font info for 111 fonts, out of 8000000 for 9000
+ 11799 strings out of 478741
+ 182629 string characters out of 5860983
+ 513491 words of memory out of 5000000
+ 30004 multiletter control sequences out of 15000+600000
+ 492602 words of font info for 119 fonts, out of 8000000 for 9000
  929 hyphenation exceptions out of 8191
- 65i,12n,67p,658b,450s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 65i,12n,67p,658b,451s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on Hubbard.dvi (5 pages, 27108 bytes).
+Output written on Hubbard.dvi (6 pages, 33824 bytes).

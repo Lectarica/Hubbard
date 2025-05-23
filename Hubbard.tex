@@ -148,8 +148,10 @@ c_{1\uparrow}^\dagger c_{2\downarrow}^\dagger\!\ket{0}
 \end{equation}
 と書けば、この有効ハミルトニアン$\mathcal{H}_{eff}$が反強磁性Heisenbergモデルになっていることもわかる。モット絶縁体における有効ハミルトニアンは反強磁性Heisenberg模型である。
 
+なおハーフフィリングでない場合に有効ハミルトニアンとしてt-J模型が得られることが知られているが、本稿では扱わない。
+
 \section{Hubbard \rm{I}}
-ハーフフィリング以外の場合にどのような物理が表れるかは未解明の部分も多く、様々な近似計算に基づいた数値計算が行われる。実際模型の提案された論文で既に状態密度の近似計算手法が紹介されていて、現在ハバード1と呼ばれている。まず原子極限のグリーン関数$G^a(\omega)$について述べ、次に$G^a(\omega)$を用いた自己エネルギーの構築と状態密度の計算手法について述べる。
+Hubbard模型の低エネルギーでの有効ハミルトニアンとして、反強磁性Heisenberg模型が表れることを見た。実際の解析では様々な近似手法に基づいた数値計算が行われることが多い。例えば、Hubbard模型の提案された論文で既に状態密度の近似計算手法が紹介されていて、現在ハバード1と呼ばれている。この近似計算は、多体量子計算ツールDCoreの中で実装されているなど、現在も用いられている手法である。まず原子極限のグリーン関数$G^a(\omega)$について述べ、次に$G^a(\omega)$を用いた自己エネルギーの構築と状態密度の計算手法について述べる。
 \subsection{原子極限のグリーン関数}
 飛び移り積分がクーロン斥力に比べて極めて小さく、$t_{i,j} = 0$とみなせるような場合を原子極限(atomic limit)と呼ぶ。サイトiにおける原子極限のハミルトニアンは
 \begin{align}
@@ -175,8 +177,7 @@ c_{1\uparrow}^\dagger c_{2\downarrow}^\dagger\!\ket{0}
 \end{align}
 である。これを解析接続することによって、原子極限のグリーン関数が
 \begin{equation}
-  G_0(\omega) = \frac{1-\langle n_{-\sigma} \rangle}{\omega + i\delta}
-     +\frac{\langle n_{-\sigma} \rangle}{\omega - U+i\delta\,}
+G_{\sigma}^a(\epsilon) = \frac{1-\langle n_{-\sigma} \rangle}{\omega + \mu} + \frac{\langle n_{-\sigma} \rangle}{\omega + \mu - U}
 \end{equation}
 と与えられる。
 
@@ -188,13 +189,63 @@ c_{1\uparrow}^\dagger c_{2\downarrow}^\dagger\!\ket{0}
 
 \subsection{自己エネルギーの導出}
 Hubbardは原子極限のグリーン関数$G^a(\omega)$を用いて、グリーン関数を
+\begin{equation}
+  G_{\sigma}(\omega) = \frac{1}{G_{\sigma}^a(\omega)^{-1} - \epsilon_{\bm{k}}}
+\end{equation}
+とおいた。このグリーン関数を、自己エネルギーを含んだ表式
+\begin{equation}
+  G_{\sigma}(\omega) = \frac{1}{\omega - \epsilon_{\bm{k}} - \Sigma(\bm{k}, \omega) + \mu}
+\end{equation}
+と同一視し、自己エネルギーの形を求めると。
+
+\begin{eqnarray}
+  \Sigma_{\sigma}(\mathbf{k},\omega)
+&=& \frac{\omega+\mu \, \langle n_{-\sigma}\rangle \, U}{
+\;\;\omega+\mu - U\,(1-\langle n_{-\sigma}\rangle)}\notag \\
+&=& \langle n_{-\sigma}\rangle\,U
++ \frac{\langle n_{-\sigma}\rangle\,(1-\langle n_{-\sigma}\rangle)\,U^2}
+       {\omega+\mu - U\,(1-\langle n_{-\sigma}\rangle)}
+\end{eqnarray}
+となる。$\Sigma_{\sigma}(\mathbf{k},\omega)$と書いたが、自己エネルギーは波数依存しないことに留意する。$\mu = \frac{U}{2}$, $n=1$(すなわち$\langle n_{-\sigma}\rangle = 1/2$)のとき
+\begin{equation}
+  \Sigma_{\sigma}(\mathbf{k},\omega) = \frac{U}{2}+\frac{U^2}{4\omega}
+\end{equation}
+である。
+
+実際にHubbard1近似で状態密度を数値計算してみる。手始めに、幅$2D$の半楕円型の状態密度を採用する。すなわち
+\begin{equation}
+  \rho(\omega) = 
+  \begin{cases}
+    \frac{\sqrt{D^2 - (\omega + \mu)^2}}{2\pi t^2} & \| \omega + \mu - \Sigma(\omega) \| \leq D \\
+    0 & \text{otherwise}
+  \end{cases}
+\end{equation}
+である。自己エネルギーが実数であるために、本計算では$\rho(\omega) \rightarrow \rho(\omega + \Sigma(\omega))$と置き換えて計算するだけでよい。\footnote[1]{
+  見やすさのため化学ポテンシャルは$\mu = U/2$で調整する。
+}
+図\ref{fig:hubbard1-dos}に$U = 1.0$, $U = 0.0$の計算結果を重ねて示す。
+\begin{figure}[h]\label{fig:hubbard1-dos}
+  \centering
+  \includegraphics[width=0.5\textwidth]{dos_hubbard1.eps}
+  \caption{$\langle n_{-\sigma} \rangle = 0.5$の場合の状態密度。原点に化学ポテンシャルが位置しており、系はUが有限になることで絶縁化する。}
+\end{figure}
+
+オンサイトクーロン$U$の存在で系は絶縁化していることがわかる。このような系を通常のバンド絶縁体と区別してモット・ハバード絶縁体と呼ぶ。
+
+なおハバード1近似ではハーフフィリングの時に、無限小のUでも系が必ず絶縁化すると結論付ける。これは3次元の金属で有限のUのもとでも系がフェルミ液体的になっていることを考えればやや不自然な結果である。ハーフフィリングでない場合はその限りではない。
+\begin{figure}[h]\label{fig:hubbard1-dos}
+  \centering
+  \includegraphics[width=0.5\textwidth]{dos_hubbard1_nothalffilling.eps}
+  \caption{$\langle n_{-\sigma} \rangle = 0.2$の場合の状態密度。原点に化学ポテンシャルが位置している。系はUが有限でも金属になる場合がある。}
+\end{figure}
+
 
 \section{Hubbard \rm{I}\hspace{-1pt}\rm{I}\hspace{-1pt}\rm{I}}
 
 
 \begin{thebibliography}{9}
-  \bibitem{hofstadter} Hofstadter, Douglas R., Energy levels and wave functions of Bloch electrons in rational and irrational magnetic fields, Phys. Rev. B $\bm{14}$, 2239(1976).
-  \bibitem{super} C R Dean 1, L Wang, P Maher, C Forsythe, F Ghahari, Y Gao, J Katoch, M Ishigami, P Moon, M Koshino, T Taniguchi, K Watanabe, K L Shepard, J Hone, P Kim, Hofstadter's butterfly and the fractal quantum Hall effect in moiré superlattices, Nature 497(7451), (2013)
+  \bibitem{hofstadter} 固体の電子論,斯波弘行,森北出版
+  \bibitem{super}強相関電子系の物理,佐宗哲郎,日本評論社
 \end{thebibliography}
 
 

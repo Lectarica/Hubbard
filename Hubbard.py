@@ -5,16 +5,16 @@ import matplotlib.pyplot as plt
 U_list = [0.0, 0.5, 1.0, 2.0]    # Hubbard U values to plot
 n = 0.1                           # Filling per spin (0 < n < 1)
 t_hop = 1.0                       # Nearest-neighbor hopping
-delta = 1e-2                     # Broadening
+delta = 1e-1                   # Broadening
 Nk = 200                         # k-space sampling per dimension
 tol_mu = 1e-4                    # Accuracy for mu search
 
 # k-grid for 2D square lattice
 kx = np.linspace(-np.pi, np.pi, Nk, endpoint=False)
-ky = np.linspace(-np.pi, np.pi, Nk, endpoint=False)
-KX, KY = np.meshgrid(kx, ky)
+# ky = np.linspace(-np.pi, np.pi, Nk, endpoint=False)
+KX = np.meshgrid(kx)
 # Dispersion ε_k
-ek = -2.0 * t_hop * (np.cos(KX) + np.cos(KY))
+ek = -2.0 * t_hop * (np.cos(KX))
 
 # Function to compute non-interacting filling per spin for given mu
 def filling_noninteracting(mu, ek):
@@ -53,6 +53,7 @@ omegas = np.linspace(-6 * t_hop, 6 * t_hop, 400)
 # Compute and plot DOS for each U
 plt.figure()
 for U in U_list:
+    mu = U/2
     DOS = np.zeros_like(omegas)
     for idx, omega in enumerate(omegas):
         z = omega + mu + 1j * delta
